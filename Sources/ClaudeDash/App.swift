@@ -88,14 +88,46 @@ struct MenuBarLabel: View {
 
     var body: some View {
         HStack(spacing: 3) {
-            Image(systemName: "gauge.with.dots.needle.50percent")
-            if let live = store.live {
-                let s = live.session.map { "\(Int($0.percent.rounded()))%" } ?? "–"
-                let w = live.weekly.map { "\(Int($0.percent.rounded()))%" } ?? "–"
-                Text("\(s) · \(w)").monospacedDigit()
-            } else if let today = store.local?.today {
-                Text(Fmt.tokens(today.total.total))
+            Image(nsImage: Self.botHead)
+            if let session = store.live?.session {
+                Text("\(Int(session.percent.rounded()))%").monospacedDigit()
             }
         }
     }
+
+    /// A small bot head (antenna, rounded face, two eyes) drawn as a template image so it
+    /// follows the menu bar's light/dark appearance. SF Symbols has no robot glyph.
+    static let botHead: NSImage = {
+        let img = NSImage(size: NSSize(width: 18, height: 18), flipped: true) { _ in
+            NSColor.black.set()
+            // Antenna
+            let stem = NSBezierPath()
+            stem.move(to: NSPoint(x: 9, y: 2.5))
+            stem.line(to: NSPoint(x: 9, y: 5.5))
+            stem.lineWidth = 1.4
+            stem.stroke()
+            NSBezierPath(ovalIn: NSRect(x: 7.6, y: 0.6, width: 2.8, height: 2.8)).fill()
+            // Ears
+            NSBezierPath(roundedRect: NSRect(x: 0.8, y: 9, width: 1.8, height: 4), xRadius: 0.8, yRadius: 0.8).fill()
+            NSBezierPath(roundedRect: NSRect(x: 15.4, y: 9, width: 1.8, height: 4), xRadius: 0.8, yRadius: 0.8).fill()
+            // Face
+            let face = NSBezierPath(roundedRect: NSRect(x: 3.2, y: 5.7, width: 11.6, height: 10.6), xRadius: 3, yRadius: 3)
+            face.lineWidth = 1.5
+            face.stroke()
+            // Eyes
+            NSBezierPath(ovalIn: NSRect(x: 5.7, y: 9, width: 2.4, height: 2.4)).fill()
+            NSBezierPath(ovalIn: NSRect(x: 9.9, y: 9, width: 2.4, height: 2.4)).fill()
+            // Mouth
+            let mouth = NSBezierPath()
+            mouth.move(to: NSPoint(x: 7, y: 13.6))
+            mouth.line(to: NSPoint(x: 11, y: 13.6))
+            mouth.lineWidth = 1.2
+            mouth.lineCapStyle = .round
+            mouth.stroke()
+            return true
+        }
+        img.isTemplate = true
+        img.accessibilityDescription = "Claude usage"
+        return img
+    }()
 }

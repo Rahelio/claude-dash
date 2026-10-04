@@ -2,7 +2,7 @@
 
 A macOS menu bar app that shows your Claude usage at a glance.
 
-The menu bar shows `session% · weekly%`. Click it to see:
+The menu bar shows a bot icon and your current 5-hour session usage in percent. Click it to see everything else:
 
 - **Limits**: the current 5-hour session and the weekly limit, each with a progress bar and its reset time. Model-specific weekly limits (Opus/Sonnet) appear if your plan has them.
 - **Weekly breakdown** by surface (Claude Code, Chats, Cowork).
