@@ -25,7 +25,7 @@ The menu bar shows `session% · weekly%`. Click it to see:
 
 2. Clone and build:
 
-       git clone <this-repo> claude-dash
+       git clone https://github.com/Rahelio/claude-dash.git
        cd claude-dash
        ./build.sh install
 
